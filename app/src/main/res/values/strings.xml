@@ -1,0 +1,50 @@
+<resources>
+    <string name="url_linkedin">https://www.linkedin.com/in/chiranjeev-jain/</string>
+    <string name="url_github">https://github.com/JChiranjeev/</string>
+    <string name="url_so">https://stackoverflow.com/users/2976742/chiranjeev-jain</string>
+    <string name="url_twitter">https://twitter.com/_JainChiranjeev</string>
+    <string name="url_website">https://jainchiranjeev.dev</string>
+    <string name="url_fork_on_github">https://github.com/JChiranjeev/git-profile</string>
+    <string name="url_email">mailto:jainchiranjeev252@gmail.com</string>
+
+    <string name="url_butterknife_github">https://github.com/JakeWharton/butterknife</string>
+    <string name="url_butterknife_website">http://jakewharton.com/</string>
+    <string name="url_glide_github">https://github.com/bumptech/glide</string>
+    <string name="url_glide_website">http://www.bu.mp/</string>
+    <string name="url_avloading_github">https://github.com/81813780/AVLoadingIndicatorView</string>
+    <string name="url_avloading_website">https://hlong.xyz/</string>
+    <string name="url_mpchart_github">https://github.com/PhilJay/MPAndroidChart</string>
+    <string name="url_mpchart_website">https://weeklycoding.com/</string>
+
+
+    <string name="app_name">Git Profile</string>
+    <string name="find_your_gitprofile">Find Your GitProfile</string>
+    <string name="tv_username">Username</string>
+    <string name="location">Location</string>
+    <string name="joining_date">Joining Date</string>
+    <string name="repositories">Repositories</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="work">Work</string>
+    <string name="top_languages">Top Languages</string>
+    <string name="most_starred">Most Starred</string>
+    <string name="top_10_starred_repos">Top 10 Starred Repos</string>
+
+    <string name="cr_app_icon"></string>
+    <string name="app_designed_and_developed_by">App Designed and Developed by</string>
+    <string name="jain_chiranjeev">Jain Chiranjeev</string>
+    <string name="fork_on_github">Fork on Github</string>
+    <string name="butterknife_name">ButterKnife</string>
+    <string name="butterknife_developer">by Jake Wharton</string>
+    <string name="butterknife_description">Bind Android views and callbacks to fields and methods.</string>
+    <string name="glide_name">Glide</string>
+    <string name="glide_developer">by Bump Technologies</string>
+    <string name="glide_description">An image loading and caching library for Android focused on smooth scrolling</string>
+    <string name="avloading_name">AVLoadingIndicatorView</string>
+    <string name="avloading_developer">by 汪海游龙</string>
+    <string name="avloading_description">AVLoadingIndicatorView is a collection of nice loading animations for Android.</string>
+    <string name="mpchart_name">MPAndroidChart</string>
+    <string name="mp_chart_developer">Philipp Jahoda</string>
+    <string name="mpchart_description">A powerful 🚀 Android chart view / graph view library, supporting line- bar- pie- radar- bubble- and candlestick charts as well as scaling, dragging and animations.</string>
+
+</resources>
