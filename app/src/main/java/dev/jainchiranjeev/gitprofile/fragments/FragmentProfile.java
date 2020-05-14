@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -39,11 +40,12 @@ import dev.jainchiranjeev.gitprofile.R;
 import dev.jainchiranjeev.gitprofile.models.GitProfileModel;
 import dev.jainchiranjeev.gitprofile.models.GitRepoModel;
 import dev.jainchiranjeev.gitprofile.utils.GraphDataParser;
+import dev.jainchiranjeev.gitprofile.utils.JSONParser;
 import dev.jainchiranjeev.gitprofile.utils.NetworkCheck;
 import dev.jainchiranjeev.gitprofile.viewmodels.GitProfileViewModel;
 import dev.jainchiranjeev.gitprofile.viewmodels.GitReposViewModel;
 
-public class FragmentProfile extends Fragment {
+public class FragmentProfile extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.iv_profile_pic)
     AppCompatImageView ivProfilePic;
@@ -89,6 +91,12 @@ public class FragmentProfile extends Fragment {
     BarChart starsGraph;
     @BindView(R.id.cl_disconnected)
     ConstraintLayout clDisconnected;
+    @BindView(R.id.cv_repo_count)
+    MaterialCardView cvRepoCount;
+    @BindView(R.id.cv_followers_count)
+    MaterialCardView cvFollowersCount;
+    @BindView(R.id.cv_following_count)
+    MaterialCardView cvFollowingCount;
 
 
     View view;
@@ -99,6 +107,8 @@ public class FragmentProfile extends Fragment {
     boolean graphsLoaded = false;
     boolean userFound = false;
     Context context;
+    String reposListJson;
+    List<GitRepoModel> reposList;
 
     @Nullable
     @Override
@@ -120,7 +130,7 @@ public class FragmentProfile extends Fragment {
             String username = bundle.getString("username");
             if (username != null || username.length() > 0) {
 //                Check Internet connection before API call
-                if(new NetworkCheck(context).isNetworkAvailable()) {
+                if (new NetworkCheck(context).isNetworkAvailable()) {
                     getUserData(username);
                 } else {
                     clDisconnected.setVisibility(View.VISIBLE);
@@ -131,10 +141,12 @@ public class FragmentProfile extends Fragment {
             }
         }
 
+        cvRepoCount.setOnClickListener(this);
+
         return view;
     }
 
-//    Connect the Profile ViewModel and get data from Github API.
+    //    Connect the Profile ViewModel and get data from Github API.
     private void getUserData(String username) {
         GitProfileViewModel gitProfileViewModel = ViewModelProviders.of(this).get(GitProfileViewModel.class);
         gitProfileViewModel.getGitProfile(context, username).observe(this, data -> {
@@ -242,7 +254,9 @@ public class FragmentProfile extends Fragment {
         gitReposViewModel.getGitReposList(context, username).observe(this, data -> {
 //            Display the graph and set values
             clGraphs.setVisibility(View.VISIBLE);
-            handleReposData(data);
+            reposListJson = data;
+            reposList = new JSONParser().getReposFromJson(data);
+            handleReposData(reposList);
             displayGraphs(true);
         });
     }
@@ -292,9 +306,27 @@ public class FragmentProfile extends Fragment {
         starsGraph.getDescription().setEnabled(false);
         starsGraph.getAxis(YAxis.AxisDependency.LEFT).setTextColor(ContextCompat.getColor(context, R.color.fontColor));
         starsGraph.getAxis(YAxis.AxisDependency.RIGHT).setTextColor(ContextCompat.getColor(context, R.color.fontColor));
+        starsGraph.getXAxis().setTextColor(ContextCompat.getColor(context, R.color.fontColor));
         starsGraph.getLegend().setCustom(barLegendEntries);
         starsGraph.getLegend().setWordWrapEnabled(true);
 //        Refresh Graph
         starsGraph.invalidate();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.cv_repo_count:
+                Bundle bundle = new Bundle();
+                bundle.putString("GitReposListJson", reposListJson);
+                FragmentRepos fragmentRepos = new FragmentRepos();
+                fragmentRepos.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                fragmentTransaction.replace(R.id.main_activity_frame_layout, fragmentRepos);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
+        }
     }
 }

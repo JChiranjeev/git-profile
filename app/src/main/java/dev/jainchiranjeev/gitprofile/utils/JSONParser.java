@@ -9,9 +9,10 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import dev.jainchiranjeev.gitprofile.models.GitFollowersModel;
+import dev.jainchiranjeev.gitprofile.models.GitFollowingModel;
 import dev.jainchiranjeev.gitprofile.models.GitProfileModel;
 import dev.jainchiranjeev.gitprofile.models.GitRepoModel;
 
@@ -20,7 +21,7 @@ public class JSONParser {
 //        Map json data to GitProfileModel object
         GitProfileModel model = new GitProfileModel();
         try {
-        JSONObject jsonObject = new JSONObject(json);
+            JSONObject jsonObject = new JSONObject(json);
             model.login = jsonObject.getString("login");
             model.id = jsonObject.getString("id");
             model.nodeId = jsonObject.getString("node_id");
@@ -63,10 +64,10 @@ public class JSONParser {
         return model;
     }
 
-//    Method to get urls from string. Returns null if url string empty
+    //    Method to get urls from string. Returns null if url string empty
     private URL getUrlFromString(String urlString) throws MalformedURLException {
         URL url;
-        if(urlString == null || urlString.length() == 0) {
+        if (urlString == null || urlString.length() == 0) {
             return null;
         } else {
             url = new URL(urlString);
@@ -74,9 +75,10 @@ public class JSONParser {
         }
     }
 
-//    Map json data to GitSubsModel for graph display
+    //    Map json data to GitSubsModel for graph display
     public List<GitRepoModel> getReposFromJson(String json) {
         List<GitRepoModel> modelList = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         try {
             JSONArray jsonArray = new JSONArray(json);
 //            Iterate over jsonArray and store data in List of GitRepoModel
@@ -86,13 +88,66 @@ public class JSONParser {
                 model.language = obj.getString("language");
                 model.stargazersCount = Integer.valueOf(obj.getString("stargazers_count"));
                 model.name = obj.getString("name");
+                model.description = obj.getString("description");
+                model.html_url = obj.getString("html_url");
+                model.createdAt = format.parse(obj.getString("created_at"));
+                model.updatedAt = format.parse(obj.getString("updated_at"));
+                model.pushedAt = format.parse(obj.getString("pushed_at"));
+                model.clone_url = obj.getString("clone_url");
+                model.watchersCount = Integer.valueOf(obj.getString("watchers_count"));
+                if (!obj.getString("license").equals("null")) {
+                    JSONObject licenseObj = obj.getJSONObject("license");
+                    model.licenseName = licenseObj.getString("name");
+                } else {
+                    model.licenseName = null;
+                }
                 modelList.add(model);
             }
             System.out.println(modelList.toString());
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
         return modelList;
+    }
+
+    public List<GitFollowersModel> getFollowersFromJson(String json) {
+        List<GitFollowersModel> followersList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                GitFollowersModel model = new GitFollowersModel();
+                JSONObject obj = jsonArray.getJSONObject(i);
+                model.login = obj.getString("login");
+                model.avatarUrl = obj.getString("avatar_url");
+                model.profileUrl = obj.getString("html_url");
+                followersList.add(model);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return followersList;
+    }
+
+    public List<GitFollowingModel> getFollowingFromJson(String json) {
+        List<GitFollowingModel> followingList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                GitFollowingModel model = new GitFollowingModel();
+                JSONObject obj = jsonArray.getJSONObject(i);
+                model.login = obj.getString("login");
+                model.avatarUrl = obj.getString("avatar_url");
+                model.profileUrl = obj.getString("html_url");
+                followingList.add(model);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return followingList;
     }
 }

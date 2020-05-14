@@ -28,13 +28,13 @@ public class GitReposViewModel extends AndroidViewModel {
     public GitReposViewModel(@NonNull Application application) {
         super(application);
     }
-    public LiveData<List<GitRepoModel>> getGitReposList(Context context, String username) {
+    public LiveData<String> getGitReposList(Context context, String username) {
         gitReposLiveData = new GitReposLiveData(context, username);
         return gitReposLiveData;
     }
 }
 
-class GitReposLiveData extends MutableLiveData<List<GitRepoModel>> {
+class GitReposLiveData extends MutableLiveData<String> {
     private final Context context;
     GitReposLiveData(Context context, String username) {
         this.context = context;
@@ -42,20 +42,20 @@ class GitReposLiveData extends MutableLiveData<List<GitRepoModel>> {
     }
 
     @Override
-    public void postValue(List<GitRepoModel> value) {
+    public void postValue(String value) {
         super.postValue(value);
     }
 
     @Override
-    public void setValue(List<GitRepoModel> value) {
+    public void setValue(String value) {
         super.setValue(value);
     }
 
     //    API Call
     private void loadData(String username) {
-        new AsyncTask<String, Void, List<GitRepoModel>>() {
+        new AsyncTask<String, Void, String>() {
             @Override
-            protected List<GitRepoModel> doInBackground(String... strings) {
+            protected String doInBackground(String... strings) {
                 String username = strings[0];
                 URL gitApiBaseUrl = null;
                 URL gitReposUrl = null;
@@ -86,13 +86,14 @@ class GitReposLiveData extends MutableLiveData<List<GitRepoModel>> {
 //                    TODO: Throw Custom Exceptions
                     e.printStackTrace();
                 }
-                return new JSONParser().getReposFromJson(responseJson.toString());
+//                return new JSONParser().getReposFromJson(responseJson.toString());
+                return responseJson.toString();
             }
 
             @Override
-            protected void onPostExecute(List<GitRepoModel> gitRepoModelList) {
-                super.onPostExecute(gitRepoModelList);
-                setValue(gitRepoModelList);
+            protected void onPostExecute(String response) {
+                super.onPostExecute(response);
+                setValue(response);
             }
         }.execute(username);
     }
