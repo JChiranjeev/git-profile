@@ -1,15 +1,12 @@
 package dev.jainchiranjeev.gitprofile.fragments;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.os.Bundle;
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,12 +23,10 @@ import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LegendEntry;
-import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -64,6 +59,8 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
     ConstraintLayout clLoading;
     @BindView(R.id.cl_content)
     ConstraintLayout clContent;
+    @BindView(R.id.sv_content)
+    ScrollView svContent;
     @BindView(R.id.av_content_loading)
     AVLoadingIndicatorView avContentLoading;
     @BindView(R.id.iv_location_icon)
@@ -104,15 +101,14 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
     MaterialCardView cvFollowersCount;
     @BindView(R.id.cv_following_count)
     MaterialCardView cvFollowingCount;
-    @BindView(R.id.ll_profile_actions)
-    LinearLayout llProfileActions;
+    @BindView(R.id.ll_toolbar) LinearLayout llToolbar;
 
 
     View view;
     Bundle bundle = null;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    boolean profileLoaded = true;
+    boolean profileLoaded = false;
     boolean graphsLoaded = false;
     boolean userFound = false;
     Context context;
@@ -132,7 +128,6 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
 
         displayContent(profileLoaded);
         displayGraphs(graphsLoaded);
-        llProfileActions.setVisibility(View.GONE);
 
 //        Check if Username attached to bundle. Get user's profile data if username available. If not, go back.
         bundle = getArguments();
@@ -140,6 +135,7 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
             fragmentManager.popBackStack();
         } else {
             username = bundle.getString("username");
+            tvUsername.setText("@" + username);
             if (username != null || username.length() > 0) {
 //                Check Internet connection before API call
                 if (new NetworkCheck(context).isNetworkAvailable()) {
@@ -147,7 +143,8 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
                 } else {
                     clDisconnected.setVisibility(View.VISIBLE);
                     clUserNotFound.setVisibility(View.GONE);
-                    clContent.setVisibility(View.GONE);
+                    llToolbar.setVisibility(View.GONE);
+                    svContent.setVisibility(View.GONE);
                     clLoading.setVisibility(View.GONE);
                 }
             }
@@ -185,7 +182,6 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
 //        Load Images using Glide
         Glide.with(view).load(model.avatarUrl).fitCenter().into(ivProfilePic);
         Glide.with(view).load(R.drawable.ic_calendar).fitCenter().into(ivCalendarIcon);
-        tvUsername.setText("@" + model.login);
         tvRepos.setText(String.valueOf(model.publicRepos));
         tvFollowers.setText(String.valueOf(model.followers));
         tvFollowing.setText(String.valueOf(model.following));
@@ -217,9 +213,11 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
     //    Display 404 error if username not found
     private void display404(boolean userNotFound) {
         if (userNotFound) {
+            tvUsername.setText("Not Found");
 //            Hide other views and display 404 if user not found
-            clContent.setVisibility(View.GONE);
+            svContent.setVisibility(View.GONE);
             clLoading.setVisibility(View.GONE);
+            llToolbar.setVisibility(View.GONE);
 //            Load 404 image into view
             Glide.with(view).load(R.drawable.ic_404).fitCenter().into(ivUserNotFound);
             clUserNotFound.setVisibility(View.VISIBLE);
@@ -234,15 +232,17 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
     private void displayContent(boolean contentLoaded) {
         if (contentLoaded) {
 //            Display profile and hide loader animation, 404 error views
-            clContent.setVisibility(View.VISIBLE);
+            svContent.setVisibility(View.VISIBLE);
+            llToolbar.setVisibility(View.VISIBLE);
             clUserNotFound.setVisibility(View.GONE);
             clLoading.setVisibility(View.GONE);
             avContentLoading.smoothToHide();
         } else {
 //            Display loader and hide profile, 404 error views
+            llToolbar.setVisibility(View.VISIBLE);
             clLoading.setVisibility(View.VISIBLE);
+            svContent.setVisibility(View.GONE);
             clUserNotFound.setVisibility(View.GONE);
-            clContent.setVisibility(View.GONE);
             avContentLoading.smoothToShow();
         }
     }
@@ -252,14 +252,12 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
         if (graphsLoaded) {
 //            Display graphs and hide loader view
             clGraphsLoading.setVisibility(View.GONE);
-            llProfileActions.setVisibility(View.VISIBLE);
-            clGraphs.setVisibility(View.VISIBLE);
+            svContent.setVisibility(View.VISIBLE);
             avGraphsLoading.smoothToHide();
         } else {
 //            Display loader and hide graph view
             clGraphsLoading.setVisibility(View.VISIBLE);
-            llProfileActions.setVisibility(View.GONE);
-            clGraphs.setVisibility(View.GONE);
+            svContent.setVisibility(View.GONE);
             avGraphsLoading.smoothToShow();
         }
     }

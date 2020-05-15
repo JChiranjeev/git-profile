@@ -108,7 +108,12 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
                 FragmentAbout about = new FragmentAbout();
                 fragmentTransaction = fragmentManager.beginTransaction();
 //                Add animations
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                about.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                about.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                setSharedElementReturnTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                setExitTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                fragmentTransaction.addSharedElement(ivAboutButton, "transition_about_icon");
+                fragmentTransaction.addSharedElement(ivGithubIcon, "transition_about_app_icon");
                 fragmentTransaction.replace(R.id.main_activity_frame_layout, about);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
@@ -125,12 +130,12 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         profile.setArguments(bundle);
         fragmentTransaction = fragmentManager.beginTransaction();
 //        Add animations
-        setSharedElementReturnTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.transition1));
-        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
-        profile.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.transition1));
-        profile.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
-        fragmentTransaction.addSharedElement(fabSubmitUsername, "transition1");
-        fragmentTransaction.addSharedElement(tvIntro, "transition2");
+        profile.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+        profile.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+        setSharedElementReturnTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+        fragmentTransaction.addSharedElement(fabSubmitUsername, "transition_profile_pic");
+        fragmentTransaction.addSharedElement(tvIntro, "transition_profile_username");
         fragmentTransaction.replace(R.id.main_activity_frame_layout, profile);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
