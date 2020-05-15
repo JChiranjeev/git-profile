@@ -34,7 +34,7 @@
         android:paddingTop="32dp"
         android:paddingBottom="32dp"
         android:id="@+id/tv_intro"
-        android:theme="@style/FontRalewayBold"/>
+        android:theme="@style/FontSourceSansBold"/>
 
     <androidx.appcompat.widget.AppCompatEditText
         android:layout_width="match_parent"

@@ -24,17 +24,19 @@ public class GitFollowersViewModel extends AndroidViewModel {
     public GitFollowersViewModel(@NonNull Application application) {
         super(application);
     }
-    public LiveData<String> getGitFollowers(Context context, String username) {
-        gitFollowersLiveData = new GitFollowersLiveData(context, username);
+    public LiveData<String> getGitFollowers(Context context, String username, Boolean followers) {
+        gitFollowersLiveData = new GitFollowersLiveData(context, username, followers);
         return gitFollowersLiveData;
     }
 }
 
 class GitFollowersLiveData extends LiveData<String> {
     private final Context context;
+    private final Boolean followers;
 
-    GitFollowersLiveData(Context context, String username) {
+    GitFollowersLiveData(Context context, String username, Boolean followers) {
         this.context = context;
+        this.followers = followers;
         getFollowers(username);
     }
 
@@ -49,7 +51,11 @@ class GitFollowersLiveData extends LiveData<String> {
                 BufferedReader in = null;
                 try {
                     gitApiBaseUrl = new URL(URLUtils.gitApiBaseUrl);
-                    gitFollowersUrl = new URL(gitApiBaseUrl, username + "/followers");
+                    if(followers) {
+                        gitFollowersUrl = new URL(gitApiBaseUrl, username + "/followers");
+                    } else {
+                        gitFollowersUrl = new URL(gitApiBaseUrl, username + "/following");
+                    }
 
                     HttpsURLConnection connection = (HttpsURLConnection) gitFollowersUrl.openConnection();
                     connection.setRequestMethod("GET");

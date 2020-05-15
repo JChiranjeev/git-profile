@@ -23,7 +23,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_about_app_name"
-            style="@style/FontRalewaySemiBold"
+            style="@style/FontSourceSansSemiBold"
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_marginTop="72dp"
@@ -55,7 +55,7 @@
                 android:paddingEnd="16dp">
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/FontRalewayRegular"
+                    style="@style/FontSourceSansRegular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -63,7 +63,7 @@
                     android:textSize="14sp" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    style="@style/FontRalewaySemiBold"
+                    style="@style/FontSourceSansSemiBold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -162,7 +162,7 @@
             android:textSize="24sp"
             android:padding="8dp"
             android:id="@+id/tv_libraries_used"
-            style="@style/FontRalewaySemiBold"/>
+            style="@style/FontSourceSansSemiBold"/>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -208,7 +208,7 @@
                             android:textColor="@color/md_grey_100"
                             android:layout_marginBottom="4dp"
                             android:layout_marginTop="4dp"
-                            style="@style/FontRalewayBold"
+                            style="@style/FontSourceSansBold"
                             android:textSize="16sp"
                             android:gravity="center_vertical"/>
 
@@ -286,7 +286,7 @@
                             android:textColor="@color/md_grey_100"
                             android:layout_marginBottom="4dp"
                             android:layout_marginTop="4dp"
-                            style="@style/FontRalewayBold"
+                            style="@style/FontSourceSansBold"
                             android:textSize="16sp"
                             android:gravity="center_vertical"/>
 
@@ -364,7 +364,7 @@
                             android:textColor="@color/md_grey_100"
                             android:layout_marginBottom="4dp"
                             android:layout_marginTop="4dp"
-                            style="@style/FontRalewayBold"
+                            style="@style/FontSourceSansBold"
                             android:textSize="16sp"
                             android:gravity="center_vertical"/>
 
@@ -442,7 +442,7 @@
                             android:textColor="@color/md_grey_100"
                             android:layout_marginBottom="4dp"
                             android:layout_marginTop="4dp"
-                            style="@style/FontRalewayBold"
+                            style="@style/FontSourceSansBold"
                             android:textSize="16sp"
                             android:gravity="center_vertical"/>
 

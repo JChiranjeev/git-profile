@@ -23,7 +23,6 @@
     <string name="location">Location</string>
     <string name="joining_date">Joining Date</string>
     <string name="repositories">Repositories</string>
-    <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="work">Work</string>
     <string name="top_languages">Top Languages</string>
@@ -46,5 +45,6 @@
     <string name="mpchart_name">MPAndroidChart</string>
     <string name="mp_chart_developer">Philipp Jahoda</string>
     <string name="mpchart_description">A powerful 🚀 Android chart view / graph view library, supporting line- bar- pie- radar- bubble- and candlestick charts as well as scaling, dragging and animations.</string>
+    <string name="followers">Followers</string>
 
 </resources>

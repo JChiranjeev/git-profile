@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -97,6 +98,8 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
     MaterialCardView cvFollowersCount;
     @BindView(R.id.cv_following_count)
     MaterialCardView cvFollowingCount;
+    @BindView(R.id.ll_profile_actions)
+    LinearLayout llProfileActions;
 
 
     View view;
@@ -109,6 +112,7 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
     Context context;
     String reposListJson;
     List<GitRepoModel> reposList;
+    String username;
 
     @Nullable
     @Override
@@ -121,13 +125,14 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
 
         displayContent(profileLoaded);
         displayGraphs(graphsLoaded);
+        llProfileActions.setVisibility(View.GONE);
 
 //        Check if Username attached to bundle. Get user's profile data if username available. If not, go back.
         bundle = getArguments();
         if (bundle == null) {
             fragmentManager.popBackStack();
         } else {
-            String username = bundle.getString("username");
+            username = bundle.getString("username");
             if (username != null || username.length() > 0) {
 //                Check Internet connection before API call
                 if (new NetworkCheck(context).isNetworkAvailable()) {
@@ -142,6 +147,8 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
         }
 
         cvRepoCount.setOnClickListener(this);
+        cvFollowersCount.setOnClickListener(this);
+        cvFollowingCount.setOnClickListener(this);
 
         return view;
     }
@@ -238,11 +245,13 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
         if (graphsLoaded) {
 //            Display graphs and hide loader view
             clGraphsLoading.setVisibility(View.GONE);
+            llProfileActions.setVisibility(View.VISIBLE);
             clGraphs.setVisibility(View.VISIBLE);
             avGraphsLoading.smoothToHide();
         } else {
 //            Display loader and hide graph view
             clGraphsLoading.setVisibility(View.VISIBLE);
+            llProfileActions.setVisibility(View.GONE);
             clGraphs.setVisibility(View.GONE);
             avGraphsLoading.smoothToShow();
         }
@@ -315,9 +324,11 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        Bundle bundle = null;
+        FragmentFollowers fragmentFollowers;
         switch(view.getId()) {
             case R.id.cv_repo_count:
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putString("GitReposListJson", reposListJson);
                 FragmentRepos fragmentRepos = new FragmentRepos();
                 fragmentRepos.setArguments(bundle);
@@ -326,6 +337,34 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
                 fragmentTransaction.replace(R.id.main_activity_frame_layout, fragmentRepos);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+                bundle = null;
+                break;
+            case R.id.cv_followers_count:
+                bundle = new Bundle();
+                bundle.putString("Username", username);
+                bundle.putString("FragmentToLoad", "Followers");
+                fragmentFollowers = new FragmentFollowers();
+                fragmentFollowers.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                fragmentTransaction.replace(R.id.main_activity_frame_layout, fragmentFollowers);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                bundle = null;
+                fragmentFollowers = null;
+                break;
+            case R.id.cv_following_count:
+                bundle = new Bundle();
+                bundle.putString("Username", username);
+                bundle.putString("FragmentToLoad", "Following");
+                fragmentFollowers = new FragmentFollowers();
+                fragmentFollowers.setArguments(bundle);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                fragmentTransaction.replace(R.id.main_activity_frame_layout, fragmentFollowers);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                bundle = null;
                 break;
         }
     }

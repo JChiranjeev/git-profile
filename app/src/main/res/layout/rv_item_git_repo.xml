@@ -20,7 +20,7 @@
             android:maxLines="1"
             android:ellipsize="end"
             app:autoSizeTextType="uniform"
-            style="@style/FontRalewaySemiBold"
+            style="@style/FontSourceSansSemiBold"
             app:layout_constraintEnd_toStartOf="@id/ib_repo_url"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/tv_repo_name"
@@ -39,7 +39,7 @@
             android:id="@+id/tv_repo_desc"
             android:padding="8dp"
             android:textSize="16sp"
-            style="@style/FontRalewayRegular"
+            style="@style/FontSourceSansRegular"
             android:textColor="@color/fontSecondary"/>
 
         <androidx.appcompat.widget.AppCompatImageButton

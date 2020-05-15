@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.jainchiranjeev.gitprofile.models.GitFollowersModel;
-import dev.jainchiranjeev.gitprofile.models.GitFollowingModel;
 import dev.jainchiranjeev.gitprofile.models.GitProfileModel;
 import dev.jainchiranjeev.gitprofile.models.GitRepoModel;
 
@@ -130,24 +129,5 @@ public class JSONParser {
             return null;
         }
         return followersList;
-    }
-
-    public List<GitFollowingModel> getFollowingFromJson(String json) {
-        List<GitFollowingModel> followingList = new ArrayList<>();
-        try {
-            JSONArray jsonArray = new JSONArray(json);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                GitFollowingModel model = new GitFollowingModel();
-                JSONObject obj = jsonArray.getJSONObject(i);
-                model.login = obj.getString("login");
-                model.avatarUrl = obj.getString("avatar_url");
-                model.profileUrl = obj.getString("html_url");
-                followingList.add(model);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return followingList;
     }
 }
