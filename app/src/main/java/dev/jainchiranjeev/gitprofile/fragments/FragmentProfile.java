@@ -1,10 +1,14 @@
 package dev.jainchiranjeev.gitprofile.fragments;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -48,6 +52,8 @@ import dev.jainchiranjeev.gitprofile.viewmodels.GitReposViewModel;
 
 public class FragmentProfile extends Fragment implements View.OnClickListener {
 
+    @BindView(R.id.cl_fragment_profile)
+    ConstraintLayout clFragmentProfile;
     @BindView(R.id.iv_profile_pic)
     AppCompatImageView ivProfilePic;
     @BindView(R.id.tv_username)
@@ -106,21 +112,22 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
     Bundle bundle = null;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    boolean profileLoaded = false;
+    boolean profileLoaded = true;
     boolean graphsLoaded = false;
     boolean userFound = false;
     Context context;
     String reposListJson;
     List<GitRepoModel> reposList;
     String username;
+    FragmentProfile profile;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-        context = getContext();
 
+        context = getContext();
         fragmentManager = ((FragmentActivity) getContext()).getSupportFragmentManager();
 
         displayContent(profileLoaded);
@@ -326,7 +333,7 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         Bundle bundle = null;
         FragmentFollowers fragmentFollowers;
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.cv_repo_count:
                 bundle = new Bundle();
                 bundle.putString("GitReposListJson", reposListJson);

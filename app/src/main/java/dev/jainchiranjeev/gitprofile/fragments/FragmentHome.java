@@ -2,6 +2,8 @@ package dev.jainchiranjeev.gitprofile.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -16,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -34,6 +38,8 @@ import dev.jainchiranjeev.gitprofile.viewmodels.GitProfileViewModel;
 
 public class FragmentHome extends Fragment implements View.OnClickListener {
 
+    @BindView(R.id.cl_fragment_home)
+    ConstraintLayout clFragmentHome;
     @BindView(R.id.fab_submit_username)
     FloatingActionButton fabSubmitUsername;
     @BindView(R.id.et_username)
@@ -125,7 +131,12 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         profile.setArguments(bundle);
         fragmentTransaction = fragmentManager.beginTransaction();
 //        Add animations
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+        setSharedElementReturnTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.transition1));
+        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
+        profile.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.transition1));
+        profile.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
+        fragmentTransaction.addSharedElement(fabSubmitUsername, "transition1");
+        fragmentTransaction.addSharedElement(etUsername, "transition2");
         fragmentTransaction.replace(R.id.main_activity_frame_layout, profile);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();

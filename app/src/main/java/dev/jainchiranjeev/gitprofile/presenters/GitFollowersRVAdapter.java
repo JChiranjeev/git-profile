@@ -68,8 +68,6 @@ public class GitFollowersRVAdapter extends RecyclerView.Adapter<GitFollowersRVAd
                         FragmentProfile profile = new FragmentProfile();
                         profile.setArguments(bundle);
                         transaction = manager.beginTransaction();
-//                    Add animations
-                        transaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
                         transaction.replace(R.id.main_activity_frame_layout, profile);
                         transaction.addToBackStack(null);
                         transaction.commit();

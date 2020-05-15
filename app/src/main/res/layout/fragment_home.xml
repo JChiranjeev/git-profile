@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/cl_fragment_home"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -45,6 +46,7 @@
         android:gravity="center"
         android:inputType="text"
         android:maxLines="1"
+        android:transitionName="transition2"
         android:ellipsize="end"
         android:textColorHint="@color/fontColor"
         android:imeOptions="actionDone"
@@ -57,6 +59,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:backgroundTint="@color/md_blue_grey_400"
+        android:transitionName="transition1"
         android:src="@drawable/ic_next"
         app:layout_constraintTop_toBottomOf="@id/et_username"
         android:layout_marginTop="72dp"
