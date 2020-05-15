@@ -1,17 +1,12 @@
 package dev.jainchiranjeev.gitprofile.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.transition.Transition;
 import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,22 +14,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textview.MaterialTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.jainchiranjeev.gitprofile.R;
-import dev.jainchiranjeev.gitprofile.viewmodels.GitProfileViewModel;
 
 public class FragmentHome extends Fragment implements View.OnClickListener {
 
@@ -48,6 +40,8 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
     AppCompatImageView ivGithubIcon;
     @BindView(R.id.iv_about_button)
     AppCompatImageView ivAboutButton;
+    @BindView(R.id.tv_intro)
+    MaterialTextView tvIntro;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -136,7 +130,7 @@ public class FragmentHome extends Fragment implements View.OnClickListener {
         profile.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.transition1));
         profile.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
         fragmentTransaction.addSharedElement(fabSubmitUsername, "transition1");
-        fragmentTransaction.addSharedElement(etUsername, "transition2");
+        fragmentTransaction.addSharedElement(tvIntro, "transition2");
         fragmentTransaction.replace(R.id.main_activity_frame_layout, profile);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
