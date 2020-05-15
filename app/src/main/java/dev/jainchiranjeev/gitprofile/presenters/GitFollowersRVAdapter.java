@@ -2,10 +2,10 @@ package dev.jainchiranjeev.gitprofile.presenters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -62,12 +62,22 @@ public class GitFollowersRVAdapter extends RecyclerView.Adapter<GitFollowersRVAd
                     int position = getAdapterPosition();
                     username = followersList.get(position).login;
                     if(username != null) {
+                        ivProfilePic.setTransitionName("transition_profile_pic");
+                        tvFollowerUsername.setTransitionName("transition_profile_username");
 //                    Send username to ProfileFragment in bundle
                         Bundle bundle = new Bundle();
                         bundle.putString("username", username);
                         FragmentProfile profile = new FragmentProfile();
                         profile.setArguments(bundle);
                         transaction = manager.beginTransaction();
+//                        Add Animations
+                        profile.setSharedElementEnterTransition(TransitionInflater.from(context).inflateTransition(R.transition.basic_transition));
+                        profile.setEnterTransition(TransitionInflater.from(context).inflateTransition(R.transition.basic_transition));
+//                        setSharedElementReturnTransition(TransitionInflater.from(context).inflateTransition(R.transition.basic_transition));
+//                        setExitTransition(TransitionInflater.from(context).inflateTransition(R.transition.basic_transition));
+                        transaction.addSharedElement(tvFollowerUsername, "transition_profile_username");
+                        transaction.addSharedElement(ivProfilePic, "transition_profile_pic");
+
                         transaction.replace(R.id.main_activity_frame_layout, profile);
                         transaction.addToBackStack(null);
                         transaction.commit();

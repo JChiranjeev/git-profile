@@ -2,6 +2,7 @@ package dev.jainchiranjeev.gitprofile.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -345,13 +346,20 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
                 bundle = null;
                 break;
             case R.id.cv_followers_count:
+                cvFollowersCount.setTransitionName("transition_followers_title");
                 bundle = new Bundle();
                 bundle.putString("Username", username);
                 bundle.putString("FragmentToLoad", "Followers");
                 fragmentFollowers = new FragmentFollowers();
                 fragmentFollowers.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//                Add Animations
+                fragmentFollowers.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                fragmentFollowers.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                setSharedElementReturnTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                setExitTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                fragmentTransaction.addSharedElement(cvFollowersCount, "transition_followers_title");
+
                 fragmentTransaction.replace(R.id.main_activity_frame_layout, fragmentFollowers);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
@@ -359,13 +367,20 @@ public class FragmentProfile extends Fragment implements View.OnClickListener {
                 fragmentFollowers = null;
                 break;
             case R.id.cv_following_count:
+                cvFollowingCount.setTransitionName("transition_followers_title");
                 bundle = new Bundle();
                 bundle.putString("Username", username);
                 bundle.putString("FragmentToLoad", "Following");
                 fragmentFollowers = new FragmentFollowers();
                 fragmentFollowers.setArguments(bundle);
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//                Add Animations
+                fragmentFollowers.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                fragmentFollowers.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                setSharedElementReturnTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                setExitTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.basic_transition));
+                fragmentTransaction.addSharedElement(cvFollowingCount, "transition_followers_title");
+
                 fragmentTransaction.replace(R.id.main_activity_frame_layout, fragmentFollowers);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();

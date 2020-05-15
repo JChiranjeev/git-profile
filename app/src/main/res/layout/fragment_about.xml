@@ -26,6 +26,7 @@
             android:id="@+id/tv_about_app_name"
             style="@style/FontSourceSansSemiBold"
             android:layout_width="wrap_content"
+            android:transitionName="transition_about_icon"
             android:layout_height="72dp"
             android:layout_marginTop="72dp"
             android:gravity="center"
@@ -51,7 +52,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:transitionName="transition_about_icon"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
                 android:paddingEnd="16dp">

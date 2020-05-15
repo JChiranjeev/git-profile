@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/followers"
         android:padding="16dp"
+        android:transitionName="transition_followers_title"
         android:textSize="24sp"
         style="@style/FontSourceSansSemiBold"
         android:id="@+id/tv_followers_toolbar"
